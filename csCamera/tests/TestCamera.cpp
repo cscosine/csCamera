@@ -4,8 +4,7 @@
 #include "csCamera/Camera.hpp"
 #include "csCamera/CameraDistortionModel.hpp"
 
-TEST_CASE("Camera", "[Camera]")
-{
+TEST_CASE("Camera", "[Camera]") {
 
   csCamera::Camerad cam(100, 100, 50, 50, 100, 100);
   csCamera::CameraMeid camMei(100, 100, 50, 50, 100, 100, 1.0);
@@ -21,19 +20,13 @@ TEST_CASE("Camera", "[Camera]")
 
   auto pz1 = cam.pointsImage_to_Z1(Eigen::Matrix2Xd::Random(2, 100));
 
-
-  csCamera::CameraDistortionModeld cdm(
-    -0.323809, 0.006031, 0.099565,
-    0.000000, 0.000000, 0.000000,
-    -0.018420, 0.034603,
-    -0.133942, 0.004625, 0.050119, -0.011123
-  );
+  csCamera::CameraDistortionModeld cdm(-0.323809, 0.006031, 0.099565, 0.000000, 0.000000, 0.000000, -0.018420, 0.034603, -0.133942,
+                                       0.004625, 0.050119, -0.011123);
 
   auto pi = cam.points3D_to_image(Eigen::Matrix3Xd::Random(3, 100));
   pi = cam.points3D_to_image(Eigen::Matrix3Xd::Random(3, 100), cdm);
 
-  csCamera::Camerad & camRef = camMei;
+  csCamera::Camerad& camRef = camMei;
   pi = camRef.points3D_to_image(Eigen::Matrix3Xd::Random(3, 100));
   pi = camRef.points3D_to_image(Eigen::Matrix3Xd::Random(3, 100), cdm);
-
 }

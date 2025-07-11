@@ -34,7 +34,7 @@ cs_target_sources(csCamera
     Utils.hpp
 	PRIVATE
     Camera.cpp
-    CameraDistortionModel.cpp    
+    CameraDistortionModel.cpp
     Utils.cpp
 		)
 

@@ -3,8 +3,7 @@
 
 #include "csCamera/Utils.hpp"
 
-TEMPLATE_TEST_CASE("Utils", "[Utils::points3D_to_z1]", float, double)
-{
+TEMPLATE_TEST_CASE("Utils", "[Utils::points3D_to_z1]", float, double) {
   using T = TestType;
 
   T epsilon = 1;
@@ -14,12 +13,16 @@ TEMPLATE_TEST_CASE("Utils", "[Utils::points3D_to_z1]", float, double)
     {
       auto ret = csCamera::Utils::points3D_to_z1(source);
       REQUIRE(ret.cols() == source.cols());
-      REQUIRE(((ret.row(0).array() - source.row(0).array() / source.row(2).array()).array() < Eigen::NumTraits<float>::dummy_precision()).all());
+      REQUIRE(
+          ((ret.row(0).array() - source.row(0).array() / source.row(2).array()).array() < Eigen::NumTraits<float>::dummy_precision())
+              .all());
     }
     {
       auto ret = csCamera::Utils::unitSpherePoint_to_z1_mei(source, epsilon);
       REQUIRE(ret.cols() == source.cols());
-      REQUIRE(((ret.row(0).array() - source.row(0).array() / (source.row(2).array() + epsilon)).array() < Eigen::NumTraits<float>::dummy_precision()).all());
+      REQUIRE(((ret.row(0).array() - source.row(0).array() / (source.row(2).array() + epsilon)).array() <
+               Eigen::NumTraits<float>::dummy_precision())
+                  .all());
     }
 
     {
@@ -51,13 +54,17 @@ TEMPLATE_TEST_CASE("Utils", "[Utils::points3D_to_z1]", float, double)
     {
       auto ret = csCamera::Utils::points3D_to_z1(source);
       REQUIRE(ret.cols() == source.cols());
-      REQUIRE(((ret.row(0).array() - source.row(0).array() / source.row(2).array()).array() < Eigen::NumTraits<float>::dummy_precision()).all());
+      REQUIRE(
+          ((ret.row(0).array() - source.row(0).array() / source.row(2).array()).array() < Eigen::NumTraits<float>::dummy_precision())
+              .all());
     }
     {
       auto ret = csCamera::Utils::unitSpherePoint_to_z1_mei(source, epsilon);
       auto ret2 = csCamera::Utils::pointsZ1_to_unitSpherePoint_mei(ret, epsilon);
       REQUIRE(ret.cols() == source.cols());
-      REQUIRE(((ret.row(0).array() - source.row(0).array() / (source.row(2).array() + epsilon)).array() < Eigen::NumTraits<float>::dummy_precision()).all());
+      REQUIRE(((ret.row(0).array() - source.row(0).array() / (source.row(2).array() + epsilon)).array() <
+               Eigen::NumTraits<float>::dummy_precision())
+                  .all());
     }
 
     Eigen::Matrix<T, 2, 10> ret2(2, source.cols());
@@ -102,7 +109,7 @@ TEMPLATE_TEST_CASE("Utils", "[Utils::points3D_to_z1]", float, double)
     }
     {
       Eigen::Matrix<T, 2, 3> d_out_d_in;
-      auto ret = csCamera::Utils::unitSpherePoint_to_z1_mei_jacob(source, epsilon, d_out_d_in);      
+      auto ret = csCamera::Utils::unitSpherePoint_to_z1_mei_jacob(source, epsilon, d_out_d_in);
     }
   }
 
@@ -117,5 +124,4 @@ TEMPLATE_TEST_CASE("Utils", "[Utils::points3D_to_z1]", float, double)
       REQUIRE(d_out_d_in(0, 3 * i) == 1 / source.col(i).z());
     }
   }
-
 }
