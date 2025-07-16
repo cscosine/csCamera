@@ -26,16 +26,15 @@ cs_find_package(csCamera PUBLIC csCore COMPONENTS core eigenUtils REQUIRED CONFI
 
 cs_target_sources(csCamera
 	PRIVATE_INSTALL
-    Camera.h
     Camera.hpp
-    CameraDistortionModel.h
+    Camera_impl.hpp
     CameraDistortionModel.hpp
-    Utils.h
+    CameraDistortionModel_impl.hpp
+    Utils_impl.hpp
     Utils.hpp
 	PRIVATE
     Camera.cpp
     CameraDistortionModel.cpp
-    Utils.cpp
 		)
 
 

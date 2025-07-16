@@ -1,7 +1,7 @@
 #include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
 
-#include "csCamera/Utils.hpp"
+#include <csCamera/Utils_impl.hpp>
 
 TEMPLATE_TEST_CASE("Utils", "[Utils::points3D_to_z1]", float, double) {
   using T = TestType;

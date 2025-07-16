@@ -1,6 +1,6 @@
-#include "Camera.h"
-#include "Camera.hpp"
-#include "CameraDistortionModel.hpp"
+#include <csCamera/CameraDistortionModel_impl.hpp>
+#include <csCamera/Camera_impl.hpp>
+#include <csCamera/Utils_impl.hpp>
 
 #include <sstream>
 

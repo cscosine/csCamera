@@ -1,8 +1,8 @@
 #include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
 
-#include "csCamera/Camera.hpp"
-#include "csCamera/CameraDistortionModel.hpp"
+#include <csCamera/CameraDistortionModel_impl.hpp>
+#include <csCamera/Camera_impl.hpp>
 
 TEST_CASE("Camera", "[Camera]") {
 
