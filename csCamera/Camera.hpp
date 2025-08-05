@@ -11,16 +11,6 @@ class CameraDistortionModel;
 
 template <class T>
 class Camera {
-  T _fx, _fy, _cx, _cy;
-  Eigen::Matrix<T, 3, 3> _K;
-  Eigen::Matrix<T, 3, 3> _invK;
-  int _w, _h;
-
-  T _angleHorizontal;
-  T _angleVertical;
-
-  void init();
-
 public:
   Camera();
   Camera(T fx, T fy, T cx, T cy, int w, int h);
@@ -29,67 +19,67 @@ public:
   void scale(double sx, double sy);
 
   T fx() const {
-    return _fx;
+    return m_fx;
   }
 
   void setFx(T v) {
-    _fx = v;
+    m_fx = v;
     init();
   }
 
   T fy() const {
-    return _fy;
+    return m_fy;
   }
 
   void setFy(T v) {
-    _fy = v;
+    m_fy = v;
     init();
   }
 
   void setFxFy(T fx, T fy) {
-    _fx = fx;
-    _fy = fy;
+    m_fx = fx;
+    m_fy = fy;
     init();
   }
 
   T cx() const {
-    return _cx;
+    return m_cx;
   }
 
   void setCx(T v) {
-    _cx = v;
+    m_cx = v;
     init();
   }
 
   T cy() const {
-    return _cy;
+    return m_cy;
   }
 
   void setCy(T v) {
-    _cy = v;
+    m_cy = v;
     init();
   }
 
   void setCxCy(T cx, T cy) {
-    _cx = cx;
-    _cy = cy;
+    m_cx = cx;
+    m_cy = cy;
     init();
   }
 
   void setImageSize(T w, T h) {
-    _w = w;
-    _h = h;
+    m_w = w;
+    m_h = h;
   }
 
   Eigen::Matrix<T, 2, 1> center() const {
-    return Eigen::Matrix<T, 2, 1>(_cx, _cy);
+    return Eigen::Matrix<T, 2, 1>(m_cx, m_cy);
   }
 
   int w() const {
-    return _w;
+    return m_w;
   }
   int h() const {
-    return _h;
+    return m_h;
   }
 
   virtual T epsilon() const {
@@ -97,23 +87,23 @@ public:
   }
 
   Eigen::Vector2i size() const {
-    return Eigen::Vector2i(_w, _h);
+    return Eigen::Vector2i(m_w, m_h);
   }
 
   const Eigen::Matrix<T, 3, 3>& K() const {
-    return _K;
+    return m_K;
   }
 
   const Eigen::Matrix<T, 3, 3>& invK() const {
-    return _invK;
+    return m_invK;
   }
 
   T angleHorizontal() const {
-    return _angleHorizontal;
+    return m_angleHorizontal;
   }
 
   T angleVertical() const {
-    return _angleVertical;
+    return m_angleVertical;
   }
 
   virtual bool isMeiGeneralModel() const {
@@ -178,11 +168,21 @@ public:
   virtual void points3D_to_image(const Eigen::Ref<const Eigen::Matrix<T, 3, Eigen::Dynamic>>& source,
                                  const CameraDistortionModel<T>& distModel,
                                  Eigen::Ref<Eigen::Matrix<T, 2, Eigen::Dynamic>> dest) const;
+
+private:
+  T m_fx, m_fy, m_cx, m_cy;
+  Eigen::Matrix<T, 3, 3> m_K;
+  Eigen::Matrix<T, 3, 3> m_invK;
+  int m_w, m_h;
+
+  T m_angleHorizontal;
+  T m_angleVertical;
+
+  void init();
 };
 
 template <class T>
 class CameraMei : public Camera<T> {
-  T _epsilon;
 
 public:
   CameraMei();
@@ -190,11 +190,11 @@ public:
   virtual ~CameraMei();
 
   T epsilon() const override {
-    return _epsilon;
+    return m_epsilon;
   }
 
   void setEpsilon(T e) {
-    _epsilon = e;
+    m_epsilon = e;
   }
 
   bool isMeiGeneralModel() const override {
@@ -202,7 +202,7 @@ public:
   }
 
   virtual bool requireMeiGeneralModel() const override {
-    return _epsilon != 0;
+    return m_epsilon != 0;
   }
 
   virtual std::string toString() const override;
@@ -212,6 +212,9 @@ public:
   void points3D_to_image(const Eigen::Ref<const Eigen::Matrix<T, 3, Eigen::Dynamic>>& source,
                          const CameraDistortionModel<T>& distModel,
                          Eigen::Ref<Eigen::Matrix<T, 2, Eigen::Dynamic>> dest) const override;
+
+private:
+  T m_epsilon;
 };
 
 using Cameraf = Camera<float>;

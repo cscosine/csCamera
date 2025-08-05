@@ -7,54 +7,49 @@ namespace csCamera {
 
 template <class T>
 class CameraDistortionModel {
-  T _k1, _k2, _k3;
-  T _k4, _k5, _k6;
-  T _p1, _p2;
-  T _s1x, _s2x, _s3y, _s4y; // s1, s2, s3, s4 in opencv
-
 public:
   CameraDistortionModel(T k1, T k2, T k3, T p1, T p2, T k4 = 0, T k5 = 0, T k6 = 0, T s1x = 0, T s2x = 0, T s3y = 0, T s4y = 0);
   CameraDistortionModel();
   virtual ~CameraDistortionModel();
 
   const T k1() const {
-    return _k1;
+    return m_k1;
   }
   const T k2() const {
-    return _k2;
+    return m_k2;
   }
   const T k3() const {
-    return _k3;
+    return m_k3;
   }
 
   const T k4() const {
-    return _k4;
+    return m_k4;
   }
   const T k5() const {
-    return _k5;
+    return m_k5;
   }
   const T k6() const {
-    return _k6;
+    return m_k6;
   }
 
   const T p1() const {
-    return _p1;
+    return m_p1;
   }
   const T p2() const {
-    return _p2;
+    return m_p2;
   }
 
   const T s1x() const {
-    return _s1x;
+    return m_s1x;
   }
   const T s2x() const {
-    return _s2x;
+    return m_s2x;
   }
   const T s3y() const {
-    return _s3y;
+    return m_s3y;
   }
   const T s4y() const {
-    return _s4y;
+    return m_s4y;
   }
 
   std::string toString() const;
@@ -97,6 +92,12 @@ public:
   // undistort single point
   template <class Derived1>
   Eigen::Matrix<T, 2, 1> undistortSinglePoint(const Eigen::MatrixBase<Derived1>& source, int numit = 20, T tol = T(1e-6)) const;
+
+private:
+  T m_k1, m_k2, m_k3;
+  T m_k4, m_k5, m_k6;
+  T m_p1, m_p2;
+  T m_s1x, m_s2x, m_s3y, m_s4y; // s1, s2, s3, s4 in opencv
 };
 
 using CameraDistortionModelf = CameraDistortionModel<float>;

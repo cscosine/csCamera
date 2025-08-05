@@ -11,27 +11,27 @@ namespace csCamera {
 
 template <class T>
 Camera<T>::Camera()
-    : _fx(-1)
-    , _fy(-1)
-    , _cx(-1)
-    , _cy(-1)
-    , _w(-1)
-    , _h(-1)
-    , _K(Eigen::Matrix<T, 3, 3>::Zero())
-    , _invK(Eigen::Matrix<T, 3, 3>::Zero()) {
+    : m_fx(-1)
+    , m_fy(-1)
+    , m_cx(-1)
+    , m_cy(-1)
+    , m_w(-1)
+    , m_h(-1)
+    , m_K(Eigen::Matrix<T, 3, 3>::Zero())
+    , m_invK(Eigen::Matrix<T, 3, 3>::Zero()) {
   init();
 }
 
 template <class T>
 Camera<T>::Camera(T fx, T fy, T cx, T cy, int w, int h)
-    : _fx(fx)
-    , _fy(fy)
-    , _cx(cx)
-    , _cy(cy)
-    , _w(w)
-    , _h(h)
-    , _K(Eigen::Matrix<T, 3, 3>::Zero())
-    , _invK(Eigen::Matrix<T, 3, 3>::Zero()) {
+    : m_fx(fx)
+    , m_fy(fy)
+    , m_cx(cx)
+    , m_cy(cy)
+    , m_w(w)
+    , m_h(h)
+    , m_K(Eigen::Matrix<T, 3, 3>::Zero())
+    , m_invK(Eigen::Matrix<T, 3, 3>::Zero()) {
   init();
 }
 
@@ -40,34 +40,34 @@ Camera<T>::~Camera() {}
 
 template <class T>
 void Camera<T>::scale(double sx, double sy) {
-  _fx *= sx;
-  _fy *= sy;
-  _cx *= sx;
-  _cy *= sy;
-  _w *= sx;
-  _h *= sy;
+  m_fx *= sx;
+  m_fy *= sy;
+  m_cx *= sx;
+  m_cy *= sy;
+  m_w *= sx;
+  m_h *= sy;
   init();
 }
 
 template <class T>
 void Camera<T>::init() {
   // K
-  _K(0, 0) = _fx;
-  _K(1, 1) = _fy;
-  _K(0, 2) = _cx;
-  _K(1, 2) = _cy;
-  _K(2, 2) = 1.0;
+  m_K(0, 0) = m_fx;
+  m_K(1, 1) = m_fy;
+  m_K(0, 2) = m_cx;
+  m_K(1, 2) = m_cy;
+  m_K(2, 2) = 1.0;
 
   // invK
-  _invK(0, 0) = 1 / _fx;
-  _invK(1, 1) = 1 / _fy;
-  _invK(0, 2) = -_cx * _invK(0, 0);
-  _invK(1, 2) = -_cy * _invK(1, 1);
-  _invK(2, 2) = 1.0;
+  m_invK(0, 0) = 1 / m_fx;
+  m_invK(1, 1) = 1 / m_fy;
+  m_invK(0, 2) = -m_cx * m_invK(0, 0);
+  m_invK(1, 2) = -m_cy * m_invK(1, 1);
+  m_invK(2, 2) = 1.0;
 
   // angles
-  _angleHorizontal = 2 * std::atan(_w / T(2.0) / _fx);
-  _angleVertical = 2 * std::atan(_h / T(2.0) / _fy);
+  m_angleHorizontal = 2 * std::atan(m_w / T(2.0) / m_fx);
+  m_angleVertical = 2 * std::atan(m_h / T(2.0) / m_fy);
 }
 
 template <class T>
@@ -76,11 +76,11 @@ std::string Camera<T>::toString() const {
 
   std::ostringstream os;
 
-  os << "  fx: " << _fx << " px, fy: " << _fy << " px" << std::endl;
-  os << "  cx: " << _cx << " px, cy: " << _cy << " px" << std::endl;
-  os << "  w: " << _w << " px, h: " << _h << " px" << std::endl;
-  os << "  FOV horizontal: " << _angleHorizontal * 180.0 / T(M_PI) << " deg, vertical: " << _angleVertical * 180.0 / T(M_PI) << " deg "
-     << std::endl;
+  os << "  fx: " << m_fx << " px, fy: " << m_fy << " px" << std::endl;
+  os << "  cx: " << m_cx << " px, cy: " << m_cy << " px" << std::endl;
+  os << "  w: " << m_w << " px, h: " << m_h << " px" << std::endl;
+  os << "  FOV horizontal: " << m_angleHorizontal * 180.0 / T(M_PI) << " deg, vertical: " << m_angleVertical * 180.0 / T(M_PI)
+     << " deg " << std::endl;
 
   return ret + os.str();
 }
@@ -106,12 +106,12 @@ void Camera<T>::points3D_to_image(const Eigen::Ref<const Eigen::Matrix<T, 3, Eig
 template <class T>
 CameraMei<T>::CameraMei()
     : Camera<T>()
-    , _epsilon(-1) {}
+    , m_epsilon(-1) {}
 
 template <class T>
 CameraMei<T>::CameraMei(T fx, T fy, T cx, T cy, int w, int h, T epsilon)
     : Camera<T>(fx, fy, cx, cy, w, h)
-    , _epsilon(epsilon) {}
+    , m_epsilon(epsilon) {}
 
 template <class T>
 CameraMei<T>::~CameraMei() {}
@@ -122,7 +122,7 @@ std::string CameraMei<T>::toString() const {
 
   std::ostringstream os;
 
-  os << "  epsilon: " << _epsilon << std::endl;
+  os << "  epsilon: " << m_epsilon << std::endl;
 
   return s + os.str();
 }
