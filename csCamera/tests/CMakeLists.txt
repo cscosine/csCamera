@@ -20,8 +20,8 @@ cs_target_link_libraries(csCameraTest
   PRIVATE
   csCamera::csCamera
   csCore::testUtils
-  csCameraLib::csCameraLib_csCMakeBaseInclude
-  csCameraLib::csCameraLib_csCMakeCompileOptionsDefault
+  csCameraSol::csCameraSol_csCMakeBaseInclude
+  csCameraSol::csCameraSol_csCMakeCompileOptionsDefault
   Catch2::Catch2WithMain)
 
 # add to tests

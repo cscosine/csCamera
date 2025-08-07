@@ -42,7 +42,7 @@ cs_target_link_libraries(csCamera
 	PUBLIC
 		Eigen3::Eigen
 		csCamera::csCameraAssert
-		csCameraLib::csCameraLib_csCMakeBaseInclude
+		csCameraSol::csCameraSol_csCMakeBaseInclude
 
 )
 
