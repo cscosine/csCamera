@@ -43,7 +43,7 @@ cs_target_link_libraries(csCamera
 		Eigen3::Eigen
 		csCamera::csCameraAssert
 		csCameraSol::csCameraSol_csCMakeBaseInclude
-
+        csCameraSol::csCameraSol_csCMakeCompileOptionsDefault
 )
 
 add_subdirectory(tests)
