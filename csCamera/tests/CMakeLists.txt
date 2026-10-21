@@ -25,6 +25,4 @@ cs_target_link_libraries(csCameraTest
 # add to tests
 catch_discover_tests(csCameraTest DISCOVERY_MODE "PRE_TEST")
 
-cs_install_target(csCameraTest csCameraTest)
-
 cs_finalize_target(csCameraTest)
