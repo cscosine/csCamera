@@ -2,11 +2,10 @@ project(csCameraTest  LANGUAGES CXX)
 
 cs_add_executable(csCameraTest)
 
-cs_find_package(csCameraTest PUBLIC csCore REQUIRED CONFIG)
-cs_find_package(csCamera PUBLIC csCore COMPONENTS testUtils REQUIRED CONFIG)
+cs_find_package(csCameraTest PRIVATE csCore COMPONENTS testUtils REQUIRED CONFIG)
 
 include(CTest)
-cs_find_package(csCameraTest PUBLIC Catch2 3 REQUIRED CONFIG)
+cs_find_package(csCameraTest PRIVATE Catch2 3 REQUIRED CONFIG)
 include(Catch)
 
 cs_target_sources(csCameraTest
@@ -24,5 +23,6 @@ cs_target_link_libraries(csCameraTest
 
 # add to tests
 catch_discover_tests(csCameraTest DISCOVERY_MODE "PRE_TEST")
+
 
 cs_finalize_target(csCameraTest)
