@@ -47,6 +47,4 @@ cs_target_link_libraries(csCamera
 
 add_subdirectory(tests)
 
-cs_install_target(csCamera csCamera DEFAULT)
-
-cs_finalize_target(csCamera)
+cs_install_target(csCamera COMPONENT csCamera DEFAULT)
