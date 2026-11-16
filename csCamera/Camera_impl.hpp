@@ -1,4 +1,5 @@
 #pragma once
+#include <cassert>
 #include <csCamera/Camera.hpp>
 #include <csCamera/Utils.hpp>
 

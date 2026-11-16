@@ -1,4 +1,5 @@
 #pragma once
+#include <cassert>
 #include <csCamera/Utils.hpp>
 
 namespace csCamera {
