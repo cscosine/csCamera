@@ -1,6 +1,5 @@
 project(csCamera LANGUAGES CXX)
 
-
 # prepare custom project asserts, note: use standard find_package
 find_package(csCore REQUIRED COMPONENTS assert CONFIG)
 
@@ -8,13 +7,13 @@ list(APPEND CMAKE_MODULE_PATH "${csCore_BASE_DIR}/cmake/csCore/assert/")
 include(csAssert)
 
 # set defaults for Paranoid additional configuration
-csSetAssertDefaultOnForConfig(${PROJECT_NAME} ASSERT RELEASE Paranoid ON)
-csSetAssertDefaultOnForConfig(${PROJECT_NAME} ASSERT RELWITHDEBINFO Paranoid ON)
-csSetAssertDefaultOnForConfig(${PROJECT_NAME} ASSERT DEBUG Paranoid ON)
-csSetAssertDefaultOnForConfig(${PROJECT_NAME} ASSERT PARANOID Paranoid ON)
-csSetAssertDefaultOnForConfig(${PROJECT_NAME} ASSERT SAFE_MATH Paranoid ON)
+cssetassertdefaultonforconfig(${PROJECT_NAME} ASSERT RELEASE Paranoid ON)
+cssetassertdefaultonforconfig(${PROJECT_NAME} ASSERT RELWITHDEBINFO Paranoid ON)
+cssetassertdefaultonforconfig(${PROJECT_NAME} ASSERT DEBUG Paranoid ON)
+cssetassertdefaultonforconfig(${PROJECT_NAME} ASSERT PARANOID Paranoid ON)
+cssetassertdefaultonforconfig(${PROJECT_NAME} ASSERT SAFE_MATH Paranoid ON)
 
-csAssertGenerateProject(csCamera csCamera) #generate target csCamera::csCameraAssert
+csassertgenerateproject(csCamera csCamera) #generate target csCamera::csCameraAssert
 list(POP_BACK CMAKE_MODULE_PATH)
 
 # prepare standard library
@@ -24,26 +23,19 @@ cs_add_library(csCamera::csCamera ALIAS csCamera)
 cs_find_package(csCamera PUBLIC Eigen3 REQUIRED CONFIG)
 cs_find_package(csCamera PUBLIC csCore COMPONENTS core eigenUtils REQUIRED CONFIG)
 
-cs_target_sources(csCamera
-	PRIVATE_INSTALL
+cs_target_sources(
+  csCamera
+  PRIVATE_INSTALL
     Camera.hpp
     Camera_impl.hpp
     CameraDistortionModel.hpp
     CameraDistortionModel_impl.hpp
     Utils_impl.hpp
     Utils.hpp
-	PRIVATE
-    Camera.cpp
-    CameraDistortionModel.cpp
-		)
-
-
-cs_target_link_libraries(csCamera
-	PUBLIC
-		Eigen3::Eigen
-		csCamera::csCameraAssert
-		csCamera::cscmake_base_include
+  PRIVATE Camera.cpp CameraDistortionModel.cpp
 )
+
+cs_target_link_libraries(csCamera PUBLIC Eigen3::Eigen csCamera::csCameraAssert csCamera::cscmake_base_include)
 
 add_subdirectory(tests)
 
