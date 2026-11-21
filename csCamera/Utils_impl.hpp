@@ -6,7 +6,7 @@ namespace csCamera {
 
 // 3D cartesian point to point on z=1
 template <class Derived1, class Derived2>
-void Utils::points3D_to_z1(const Eigen::MatrixBase<Derived1>& source, Eigen::MatrixBase<Derived2>& ret) {
+void Utils::points3D_to_z1(const Eigen::MatrixBase<Derived1> &source, Eigen::MatrixBase<Derived2> &ret) {
   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix3Xf, Derived1);
   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix2Xf, Derived2);
   assert(source.rows() == 3);
@@ -18,8 +18,8 @@ void Utils::points3D_to_z1(const Eigen::MatrixBase<Derived1>& source, Eigen::Mat
 
 // 3d point to z=1 plane for single point with jacobian
 template <class Derived1, class Derived2>
-Eigen::Matrix<typename Derived1::Scalar, 2, 1> Utils::points3D_to_z1_jacob(const Eigen::MatrixBase<Derived1>& in,
-                                                                           Eigen::MatrixBase<Derived2>& d_out_d_in) {
+Eigen::Matrix<typename Derived1::Scalar, 2, 1> Utils::points3D_to_z1_jacob(const Eigen::MatrixBase<Derived1> &in,
+                                                                           Eigen::MatrixBase<Derived2> &d_out_d_in) {
   Eigen::Matrix<typename Derived1::Scalar, 2, 1> ret(in.x() / in.z(), in.y() / in.z());
   typename Derived1::Scalar z2 = in.z() * in.z();
 
@@ -35,8 +35,8 @@ Eigen::Matrix<typename Derived1::Scalar, 2, 1> Utils::points3D_to_z1_jacob(const
 }
 
 template <class Derived1, class Derived2>
-void Utils::unitSpherePoint_to_z1_mei(const Eigen::MatrixBase<Derived1>& source, typename Derived1::Scalar epsilon,
-                                      Eigen::MatrixBase<Derived2>& ret) {
+void Utils::unitSpherePoint_to_z1_mei(const Eigen::MatrixBase<Derived1> &source, typename Derived1::Scalar epsilon,
+                                      Eigen::MatrixBase<Derived2> &ret) {
   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix3Xf, Derived1);
   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix2Xf, Derived2);
 
@@ -50,8 +50,8 @@ void Utils::unitSpherePoint_to_z1_mei(const Eigen::MatrixBase<Derived1>& source,
 
 // mei h function for single point with z check
 template <class Derived>
-Eigen::Matrix<typename Derived::Scalar, 2, 1> Utils::unitSpherePoint_to_z1_mei(const Eigen::MatrixBase<Derived>& in,
-                                                                               typename Derived::Scalar epsilon, bool& zOk) {
+Eigen::Matrix<typename Derived::Scalar, 2, 1>
+Utils::unitSpherePoint_to_z1_mei(const Eigen::MatrixBase<Derived> &in, typename Derived::Scalar epsilon, bool &zOk) {
   typename Derived::Scalar z_e = in.z() + epsilon;
   typename Derived::Scalar z_e_sq = z_e * z_e;
 
@@ -65,8 +65,9 @@ Eigen::Matrix<typename Derived::Scalar, 2, 1> Utils::unitSpherePoint_to_z1_mei(c
 // mei h function for single point with jacobian
 template <class Derived1, class Derived2, class Derived3>
 Eigen::Matrix<typename Derived1::Scalar, 2, 1>
-Utils::unitSpherePoint_to_z1_mei_jacob(const Eigen::MatrixBase<Derived1>& in, typename Derived1::Scalar epsilon,
-                                       Eigen::MatrixBase<Derived2>& d_out_d_in, Eigen::MatrixBase<Derived3>& d_out_d_epsilon) {
+Utils::unitSpherePoint_to_z1_mei_jacob(const Eigen::MatrixBase<Derived1> &in, typename Derived1::Scalar epsilon,
+                                       Eigen::MatrixBase<Derived2> &d_out_d_in,
+                                       Eigen::MatrixBase<Derived3> &d_out_d_epsilon) {
 
   typename Derived1::Scalar z_e = in.z() + epsilon;
   typename Derived1::Scalar z_e_sq = z_e * z_e;
@@ -87,9 +88,9 @@ Utils::unitSpherePoint_to_z1_mei_jacob(const Eigen::MatrixBase<Derived1>& in, ty
 
 // mei h function for single point with jacobian (source only)
 template <class Derived1, class Derived2>
-Eigen::Matrix<typename Derived1::Scalar, 2, 1> Utils::unitSpherePoint_to_z1_mei_jacob(const Eigen::MatrixBase<Derived1>& in,
-                                                                                      typename Derived1::Scalar epsilon,
-                                                                                      Eigen::MatrixBase<Derived2>& d_out_d_in) {
+Eigen::Matrix<typename Derived1::Scalar, 2, 1>
+Utils::unitSpherePoint_to_z1_mei_jacob(const Eigen::MatrixBase<Derived1> &in, typename Derived1::Scalar epsilon,
+                                       Eigen::MatrixBase<Derived2> &d_out_d_in) {
   typename Derived1::Scalar z_e = in.z() + epsilon;
   typename Derived1::Scalar z_e_sq = z_e * z_e;
   Eigen::Matrix<typename Derived1::Scalar, 2, 1> ret(in.x() / z_e, in.y() / z_e);
@@ -105,8 +106,8 @@ Eigen::Matrix<typename Derived1::Scalar, 2, 1> Utils::unitSpherePoint_to_z1_mei_
 }
 
 template <class Derived1, class Derived2>
-void Utils::pointsZ1_to_unitSpherePoint_mei(const Eigen::MatrixBase<Derived1>& in, typename Derived1::Scalar epsilon,
-                                            Eigen::MatrixBase<Derived2>& ret) {
+void Utils::pointsZ1_to_unitSpherePoint_mei(const Eigen::MatrixBase<Derived1> &in, typename Derived1::Scalar epsilon,
+                                            Eigen::MatrixBase<Derived2> &ret) {
   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix2Xf, Derived1);
   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix3Xf, Derived2);
   using S = typename Derived1::Scalar;
