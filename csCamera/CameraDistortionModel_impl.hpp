@@ -6,7 +6,8 @@ namespace csCamera {
 
 template <class T>
 template <class Derived1, class Derived2>
-void CameraDistortionModel<T>::distort(const Eigen::MatrixBase<Derived1>& source, Eigen::MatrixBase<Derived2>& dest) const {
+void CameraDistortionModel<T>::distort(const Eigen::MatrixBase<Derived1> &source,
+                                       Eigen::MatrixBase<Derived2> &dest) const {
   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix2Xf, Derived1);
   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix2Xf, Derived2);
   assert(source.cols() == dest.cols());
@@ -25,20 +26,19 @@ void CameraDistortionModel<T>::distort(const Eigen::MatrixBase<Derived1>& source
   Eigen::Matrix<T, 1, N> cdist = 1 + this->k1() * r2.array() + this->k2() * r4.array() + this->k3() * r6.array();
   Eigen::Matrix<T, 1, N> ddist = 1 + this->k4() * r2.array() + this->k5() * r4.array() + this->k6() * r6.array();
 
-  dest.row(0) = source.row(0).array() * cdist.array() / ddist.array() + this->p1() * a1.array() + this->p2() * a2.array() +
-                this->s1x() * r2.array() + this->s2x() * r4.array();
+  dest.row(0) = source.row(0).array() * cdist.array() / ddist.array() + this->p1() * a1.array() +
+                this->p2() * a2.array() + this->s1x() * r2.array() + this->s2x() * r4.array();
 
-  dest.row(1) = source.row(1).array() * cdist.array() / ddist.array() + this->p1() * a3.array() + this->p2() * a1.array() +
-                this->s3y() * r2.array() + this->s4y() * r4.array();
+  dest.row(1) = source.row(1).array() * cdist.array() / ddist.array() + this->p1() * a3.array() +
+                this->p2() * a1.array() + this->s3y() * r2.array() + this->s4y() * r4.array();
 }
 
 template <class T>
 template <class Derived1, class Derived2, class Derived3, class Derived4, class Derived5, class Derived6>
-Eigen::Matrix<T, 2, 1>
-CameraDistortionModel<T>::distort_jacobians(const Eigen::MatrixBase<Derived1>& source, Eigen::MatrixBase<Derived2>& d_out_d_source,
-                                            Eigen::MatrixBase<Derived3>& d_out_d_k1k2k3, Eigen::MatrixBase<Derived4>& d_out_d_k4k5k6,
-                                            Eigen::MatrixBase<Derived5>& d_out_d_p1p2,
-                                            Eigen::MatrixBase<Derived6>& d_out_d_s1xs2xs3ys4y) const {
+Eigen::Matrix<T, 2, 1> CameraDistortionModel<T>::distort_jacobians(
+    const Eigen::MatrixBase<Derived1> &source, Eigen::MatrixBase<Derived2> &d_out_d_source,
+    Eigen::MatrixBase<Derived3> &d_out_d_k1k2k3, Eigen::MatrixBase<Derived4> &d_out_d_k4k5k6,
+    Eigen::MatrixBase<Derived5> &d_out_d_p1p2, Eigen::MatrixBase<Derived6> &d_out_d_s1xs2xs3ys4y) const {
   {
     EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Vector2f, Derived1);
     assert(source.rows() == 2 && source.cols() == 1);
@@ -107,7 +107,8 @@ CameraDistortionModel<T>::distort_jacobians(const Eigen::MatrixBase<Derived1>& s
   ret.x() = x * r + this->p1() * a1 + this->p2() * a2 + this->s1x() * r2 + this->s2x() * r4;
 
   d_out_d_source.row(0) = Eigen::Matrix<T, 1, 2>(r, 0) + x * (d_r_d_num * d_num_d_xy + d_r_d_den * d_den_d_xy) +
-                          this->p1() * d_a1_d_xy + +this->p2() * d_a2_d_xy + +this->s1x() * d_r2_d_xy + +this->s2x() * d_r4_d_xy;
+                          this->p1() * d_a1_d_xy + +this->p2() * d_a2_d_xy + +this->s1x() * d_r2_d_xy +
+                          +this->s2x() * d_r4_d_xy;
 
   d_out_d_k1k2k3.row(0) = x * (d_r_d_num * d_num_d_k1k2k3);
   d_out_d_k4k5k6.row(0) = x * (d_r_d_den * d_den_d_k3k4k5);
@@ -118,7 +119,8 @@ CameraDistortionModel<T>::distort_jacobians(const Eigen::MatrixBase<Derived1>& s
   ret.y() = y * r + this->p1() * a3 + this->p2() * a1 + this->s3y() * r2 + this->s4y() * r4;
 
   d_out_d_source.row(1) = Eigen::Matrix<T, 1, 2>(0, r) + y * (d_r_d_num * d_num_d_xy + d_r_d_den * d_den_d_xy) +
-                          this->p1() * d_a3_d_xy + +this->p2() * d_a1_d_xy + +this->s3y() * d_r2_d_xy + +this->s4y() * d_r4_d_xy;
+                          this->p1() * d_a3_d_xy + +this->p2() * d_a1_d_xy + +this->s3y() * d_r2_d_xy +
+                          +this->s4y() * d_r4_d_xy;
 
   d_out_d_k1k2k3.row(1) = y * (d_r_d_num * d_num_d_k1k2k3);
   d_out_d_k4k5k6.row(1) = y * (d_r_d_den * d_den_d_k3k4k5);
@@ -130,8 +132,8 @@ CameraDistortionModel<T>::distort_jacobians(const Eigen::MatrixBase<Derived1>& s
 
 template <class T>
 template <class Derived1, class Derived2>
-Eigen::Matrix<T, 2, 1> CameraDistortionModel<T>::distort_jacobians(const Eigen::MatrixBase<Derived1>& source,
-                                                                   Eigen::MatrixBase<Derived2>& d_out_d_source) const {
+Eigen::Matrix<T, 2, 1> CameraDistortionModel<T>::distort_jacobians(const Eigen::MatrixBase<Derived1> &source,
+                                                                   Eigen::MatrixBase<Derived2> &d_out_d_source) const {
 
   {
     EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Vector2f, Derived1);
@@ -185,21 +187,23 @@ Eigen::Matrix<T, 2, 1> CameraDistortionModel<T>::distort_jacobians(const Eigen::
   ret.x() = x * r + this->p1() * a1 + this->p2() * a2 + this->s1x() * r2 + this->s2x() * r4;
 
   d_out_d_source.row(0) = Eigen::Matrix<T, 1, 2>(r, 0) + x * (d_r_d_num * d_num_d_xy + d_r_d_den * d_den_d_xy) +
-                          this->p1() * d_a1_d_xy + +this->p2() * d_a2_d_xy + +this->s1x() * d_r2_d_xy + +this->s2x() * d_r4_d_xy;
+                          this->p1() * d_a1_d_xy + +this->p2() * d_a2_d_xy + +this->s1x() * d_r2_d_xy +
+                          +this->s2x() * d_r4_d_xy;
 
   //------------------------------------------------------------
   ret.y() = y * r + this->p1() * a3 + this->p2() * a1 + this->s3y() * r2 + this->s4y() * r4;
 
   d_out_d_source.row(1) = Eigen::Matrix<T, 1, 2>(0, r) + y * (d_r_d_num * d_num_d_xy + d_r_d_den * d_den_d_xy) +
-                          this->p1() * d_a3_d_xy + +this->p2() * d_a1_d_xy + +this->s3y() * d_r2_d_xy + +this->s4y() * d_r4_d_xy;
+                          this->p1() * d_a3_d_xy + +this->p2() * d_a1_d_xy + +this->s3y() * d_r2_d_xy +
+                          +this->s4y() * d_r4_d_xy;
 
   return ret;
 }
 
 template <class T>
 template <class Derived1, class Derived2>
-void CameraDistortionModel<T>::undistort(const Eigen::MatrixBase<Derived1>& source, Eigen::MatrixBase<Derived2>& ret, int numit,
-                                         T tol) const {
+void CameraDistortionModel<T>::undistort(const Eigen::MatrixBase<Derived1> &source, Eigen::MatrixBase<Derived2> &ret,
+                                         int numit, T tol) const {
   // so far do it one by one... how to check convergence on the group?
   for (int i = 0; i < source.cols(); i++) {
     ret.col(i) = undistortSinglePoint(source.col(i), numit, tol);
@@ -208,8 +212,8 @@ void CameraDistortionModel<T>::undistort(const Eigen::MatrixBase<Derived1>& sour
 
 template <class T>
 template <class Derived1>
-Eigen::Matrix<T, 2, 1> CameraDistortionModel<T>::undistortSinglePoint(const Eigen::MatrixBase<Derived1>& source, int numit,
-                                                                      T tol) const {
+Eigen::Matrix<T, 2, 1> CameraDistortionModel<T>::undistortSinglePoint(const Eigen::MatrixBase<Derived1> &source,
+                                                                      int numit, T tol) const {
   const T tolSq = tol * tol;
 
   Eigen::Matrix<T, 2, 1> p;

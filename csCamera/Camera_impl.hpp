@@ -7,7 +7,7 @@ namespace csCamera {
 
 template <class T>
 template <class Derived1, class Derived2>
-void Camera<T>::pointsZ1_to_image(const Eigen::MatrixBase<Derived1>& source, Eigen::MatrixBase<Derived2>& ret) const {
+void Camera<T>::pointsZ1_to_image(const Eigen::MatrixBase<Derived1> &source, Eigen::MatrixBase<Derived2> &ret) const {
   {
     EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix2Xf, Derived1);
     assert(source.rows() == 2);
@@ -22,7 +22,7 @@ void Camera<T>::pointsZ1_to_image(const Eigen::MatrixBase<Derived1>& source, Eig
 
 template <class T>
 template <class Derived1, class Derived2>
-void Camera<T>::pointsImage_to_Z1(const Eigen::MatrixBase<Derived1>& source, Eigen::MatrixBase<Derived2>& ret) const {
+void Camera<T>::pointsImage_to_Z1(const Eigen::MatrixBase<Derived1> &source, Eigen::MatrixBase<Derived2> &ret) const {
   {
     EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Matrix2Xf, Derived1);
     assert(source.rows() == 2);
@@ -38,9 +38,9 @@ void Camera<T>::pointsImage_to_Z1(const Eigen::MatrixBase<Derived1>& source, Eig
 // z=1 plane to camera image for single point with jacobian
 template <class T>
 template <class Derived1, class Derived2, class Derived3>
-Eigen::Matrix<T, 2, 1> Camera<T>::pointsZ1_to_image_jacobian(const Eigen::MatrixBase<Derived1>& source,
-                                                             Eigen::MatrixBase<Derived2>& d_out_d_cam,
-                                                             Eigen::MatrixBase<Derived3>& d_out_d_in) const {
+Eigen::Matrix<T, 2, 1> Camera<T>::pointsZ1_to_image_jacobian(const Eigen::MatrixBase<Derived1> &source,
+                                                             Eigen::MatrixBase<Derived2> &d_out_d_cam,
+                                                             Eigen::MatrixBase<Derived3> &d_out_d_in) const {
   {
     EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Vector2f, Derived1);
     assert(source.rows() == 2 && source.cols() == 1);
@@ -73,8 +73,8 @@ Eigen::Matrix<T, 2, 1> Camera<T>::pointsZ1_to_image_jacobian(const Eigen::Matrix
 // z=1 plane to camera image for single point with jacobian (only source point)
 template <class T>
 template <class Derived1, class Derived2>
-Eigen::Matrix<T, 2, 1> Camera<T>::pointsZ1_to_image_jacobian(const Eigen::MatrixBase<Derived1>& source,
-                                                             Eigen::MatrixBase<Derived2>& d_out_d_in) const {
+Eigen::Matrix<T, 2, 1> Camera<T>::pointsZ1_to_image_jacobian(const Eigen::MatrixBase<Derived1> &source,
+                                                             Eigen::MatrixBase<Derived2> &d_out_d_in) const {
   {
     EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Eigen::Vector2f, Derived1);
     assert(source.rows() == 2 && source.cols() == 1);
