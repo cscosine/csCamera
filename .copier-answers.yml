@@ -1,6 +1,9 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v1.1.4
+_commit: v1.1.5
 _src_path: gh:cscosine/cs-project-template
+claude_plugins:
+- cscmake
+- csfoundation
 description: 'Camera models in C++ on Eigen: pinhole and Mei, with OpenCV-style distortion'
 kind: library
 project_name: csCamera
